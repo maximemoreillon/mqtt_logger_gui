@@ -35,14 +35,28 @@
             label="Topic"/>
         </v-col>
       </v-row>
+      <v-row align="center">
+        <v-col>
+          <v-text-field
+            v-model="source.json_key"
+            label="JSON key"/>
+        </v-col>
+      </v-row>
+    </v-card-text>
+    <v-card-text>
+      <PointsChart />
     </v-card-text>
   </v-card>
 </template>
 
 <script>
+import PointsChart from '@/components/PointsChart.vue'
+
 export default {
   name: 'Source',
-
+  components: {
+    PointsChart
+  },
   data: () => ({
     source: null,
     loading: false,
@@ -55,9 +69,24 @@ export default {
 
   mounted(){
     this.get_source()
+    document.addEventListener("keydown", this.handle_keydown)
+  },
+  beforeDestroy() {
+    document.removeEventListener("keydown", this.handle_keydown)
   },
 
+
   methods: {
+    handle_keydown(e){
+      // Keyboard events
+
+      // CTRL S
+      if (e.key === 's' && e.ctrlKey) {
+        e.preventDefault()
+        this.update_source()
+      }
+    },
+
     get_source(){
       this.loading = true
       const url = `${process.env.VUE_APP_API_URL}/sources/${this.source_id}`
