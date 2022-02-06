@@ -12,8 +12,13 @@
       options: {
         type:"line",
         chart: {
-          id: 'vuechart-example'
+          id: 'vuechart-example',
         },
+        xaxis: {
+          type: 'datetime'
+        }
+
+
       },
       series: []
     }),
@@ -34,8 +39,10 @@
 
             this.series = [{
               name: data[0]._field,
-              data: data.map(p => p._value)
+              data: data.map(p => ([new Date(p._time).getTime(),p._value]))
             }]
+
+            console.log(this.series);
 
           })
           .catch( error => {console.error(error)})
