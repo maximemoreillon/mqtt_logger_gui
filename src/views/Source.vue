@@ -56,7 +56,7 @@
                   </v-col>
                 </v-row>
               </v-toolbar>
-              <v-card-text>
+              <v-card-text v-if="source.keys.length">
                 <v-row dense v-for="(key, index) in source.keys" :key="index">
                   <v-col>
                     <v-text-field dense :value="key" @input="update_key(index, $event)" label="JSON key" />
@@ -66,8 +66,10 @@
                       <v-icon>mdi-delete</v-icon>
                     </v-btn>
                   </v-col>
-
                 </v-row>
+              </v-card-text>
+              <v-card-text v-else>
+                No field selected, using all fields of payload
               </v-card-text>
 
             </v-card>

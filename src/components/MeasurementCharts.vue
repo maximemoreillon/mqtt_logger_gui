@@ -1,8 +1,8 @@
 <template>
-  <!-- TODO: Have multiple graphs if multiple fields -->
   <v-container fluid>
     <v-row v-for="(serie, index) in series" :key="index">
       <v-col>
+        <!-- Not very clean -->
         <apexchart :options="{ ...options, title: { text: serie.name}}" :series="[serie]" />
       </v-col>
     </v-row>
