@@ -76,7 +76,7 @@
         </v-row>
       </v-card-text>
       <v-card-text>
-        <PointsChart :keys="source.keys" />
+        <MeasurementCharts :keys="source.keys" />
       </v-card-text>
     </template>
 
@@ -84,12 +84,12 @@
 </template>
 
 <script>
-import PointsChart from '@/components/PointsChart.vue'
+import MeasurementCharts from '@/components/MeasurementCharts.vue'
 
 export default {
   name: 'Source',
   components: {
-    PointsChart
+    MeasurementCharts
   },
   data: () => ({
     source: null,
