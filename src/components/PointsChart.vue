@@ -1,4 +1,5 @@
 <template>
+  <!-- TODO: Have multiple graphs if multiple fields -->
   <apexchart
     :options="options"
     :series="series"/>
@@ -37,16 +38,27 @@
         this.axios.get(url)
           .then(({data}) => {
 
-            this.series = [{
-              name: data[0] ? data[0]._field : 'No field',
-              data: data.map(p => ([new Date(p._time).getTime(),p._value]))
-            }]
 
+            const unique_fields = this.get_unique_fields(data)
+
+            this.series = unique_fields.map(field => {
+              
+              return {
+                name: field,
+                data: data.filter(({ _field }) => _field === field).map(p => ([new Date(p._time).getTime(),p._value]))
+              }
+            })
 
           })
           .catch( error => {console.error(error)})
           .finally( () => {this.loading = false})
       },
+      get_unique_fields(data){
+        return data.reduce((acc, { _field }) => {
+          if (!acc.includes(_field)) acc.push(_field)
+          return acc
+        }, [])
+      }
     },
   }
 </script>
