@@ -9,13 +9,20 @@
         <v-spacer/>
         <v-col cols="auto">
           <v-btn
+            icon
+            color="#c00000"
             :loading="deleting"
-            @click="delete_source()">Delete</v-btn>
+            @click="delete_source()">
+            <v-icon>mdi-delete</v-icon>
+            </v-btn>
         </v-col>
         <v-col cols="auto">
           <v-btn
+            icon
             :loading="updating"
-            @click="update_source()">Save</v-btn>
+            @click="update_source()">
+            <v-icon>mdi-content-save</v-icon>
+            </v-btn>
         </v-col>
       </v-row>
     </v-toolbar>
@@ -62,9 +69,6 @@ export default {
     loading: false,
     updating: false,
     deleting: false,
-    headers: [
-      {text: 'ID', value: '_id'}
-    ]
   }),
 
   mounted(){
@@ -98,6 +102,7 @@ export default {
         .finally( () => {this.loading = false})
     },
     delete_source(){
+      if(!confirm('Really?')) return
       this.deleting = true
       const url = `${process.env.VUE_APP_API_URL}/sources/${this.source_id}`
       this.axios.delete(url)

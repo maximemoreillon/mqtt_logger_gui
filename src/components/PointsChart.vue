@@ -38,11 +38,10 @@
           .then(({data}) => {
 
             this.series = [{
-              name: data[0]._field,
+              name: data[0] ? data[0]._field : 'No field',
               data: data.map(p => ([new Date(p._time).getTime(),p._value]))
             }]
 
-            console.log(this.series);
 
           })
           .catch( error => {console.error(error)})

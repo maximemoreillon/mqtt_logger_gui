@@ -83,8 +83,8 @@
         const url = `${process.env.VUE_APP_API_URL}/sources`
         const body = {name: this.name}
         this.axios.post(url,body)
-          .then(({data}) => {
-            console.log(data)
+          .then(({data: {_id}}) => {
+            this.$router.push({ name: 'source', params: {_id}})
           })
           .catch( error => {console.error(error)})
           .finally( () => {this.loading = false})
