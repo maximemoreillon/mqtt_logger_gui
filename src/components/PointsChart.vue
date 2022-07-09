@@ -8,6 +8,9 @@
 <script>
   export default {
     name: 'PointsChart',
+    props: {
+      keys: Array
+    },
 
     data: () => ({
       options: {
@@ -38,11 +41,8 @@
         this.axios.get(url)
           .then(({data}) => {
 
-
-            const unique_fields = this.get_unique_fields(data)
-
-            this.series = unique_fields.map(field => {
-              
+            const fields = this.keys.length ? this.keys : this.get_unique_fields(data)
+            this.series = fields.map(field => {
               return {
                 name: field,
                 data: data.filter(({ _field }) => _field === field).map(p => ([new Date(p._time).getTime(),p._value]))

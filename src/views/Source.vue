@@ -24,59 +24,62 @@
       </v-row>
     </v-toolbar>
     <v-divider />
-    <v-card-text v-if="source">
-      <v-row>
-        <v-col>
-          <v-text-field :value="source._id" label="ID" filled />
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <v-text-field v-model="source.name" label="Name" />
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <v-text-field v-model="source.topic" label="Topic" />
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <v-card outlined>
+    <template v-if="source">
+      <v-card-text>
+        <v-row>
+          <v-col>
+            <v-text-field :value="source._id" label="ID" filled />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-text-field v-model="source.name" label="Name" />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-text-field v-model="source.topic" label="Topic" />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-card outlined>
 
-            <v-toolbar flat>
-              <v-row align="center">
-                <v-col>
-                  JSON keys
-                </v-col>
-                <v-spacer></v-spacer>
-                <v-col cols="auto">
-                  <v-btn @click="add_key()">Add key</v-btn>
-                </v-col>
-              </v-row>
-            </v-toolbar>
-            <v-card-text>
-              <v-row dense v-for="(key, index) in source.keys" :key="index">
-                <v-col>
-                  <v-text-field dense :value="key" @input="update_key(index, $event)" label="JSON key" />
-                </v-col>
-                <v-col cols="auto">
-                  <v-btn icon @click="delete_key(index)">
-                    <v-icon>mdi-delete</v-icon>
-                  </v-btn>
-                </v-col>
+              <v-toolbar flat>
+                <v-row align="center">
+                  <v-col>
+                    JSON keys
+                  </v-col>
+                  <v-spacer></v-spacer>
+                  <v-col cols="auto">
+                    <v-btn @click="add_key()">Add key</v-btn>
+                  </v-col>
+                </v-row>
+              </v-toolbar>
+              <v-card-text>
+                <v-row dense v-for="(key, index) in source.keys" :key="index">
+                  <v-col>
+                    <v-text-field dense :value="key" @input="update_key(index, $event)" label="JSON key" />
+                  </v-col>
+                  <v-col cols="auto">
+                    <v-btn icon @click="delete_key(index)">
+                      <v-icon>mdi-delete</v-icon>
+                    </v-btn>
+                  </v-col>
 
-              </v-row>
-            </v-card-text>
+                </v-row>
+              </v-card-text>
 
-          </v-card>
+            </v-card>
 
-        </v-col>
-      </v-row>
-    </v-card-text>
-    <v-card-text>
-      <PointsChart />
-    </v-card-text>
+          </v-col>
+        </v-row>
+      </v-card-text>
+      <v-card-text>
+        <PointsChart :keys="source.keys" />
+      </v-card-text>
+    </template>
+
   </v-card>
 </template>
 
