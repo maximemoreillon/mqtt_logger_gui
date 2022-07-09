@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-toolbar flat>
-      <v-row>
+      <v-row align="center">
         <v-col>
           <v-toolbar-title>Sources</v-toolbar-title>
         </v-col>
@@ -37,7 +37,8 @@ export default {
     sources: [],
     loading: false,
     headers: [
-      {text: 'ID', value: '_id'}
+      { text: 'Name', value: 'name' },
+      { text: 'Topic', value: 'topic' }
     ]
   }),
 

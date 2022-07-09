@@ -1,52 +1,43 @@
 <template>
-  <v-card
-    :loading="loading">
+  <v-card :loading="loading">
     <v-toolbar flat>
-      <v-row>
+      <v-row align="center">
+        <v-col cols="auto">
+          <v-btn :to="{name: 'sources'}" icon exact>
+          <v-icon>mdi-arrow-left</v-icon>
+          </v-btn>
+        </v-col>
         <v-col>
           <v-toolbar-title>Source</v-toolbar-title>
         </v-col>
-        <v-spacer/>
+        <v-spacer />
         <v-col cols="auto">
-          <v-btn
-            icon
-            color="#c00000"
-            :loading="deleting"
-            @click="delete_source()">
+          <v-btn icon color="#c00000" :loading="deleting" @click="delete_source()">
             <v-icon>mdi-delete</v-icon>
-            </v-btn>
+          </v-btn>
         </v-col>
         <v-col cols="auto">
-          <v-btn
-            icon
-            :loading="updating"
-            @click="update_source()">
+          <v-btn icon :loading="updating" @click="update_source()">
             <v-icon>mdi-content-save</v-icon>
-            </v-btn>
+          </v-btn>
         </v-col>
       </v-row>
     </v-toolbar>
-    <v-divider/>
+    <v-divider />
     <v-card-text v-if="source">
       <v-row align="center">
         <v-col>
-          <v-text-field
-            v-model="source.name"
-            label="Name"/>
+          <v-text-field v-model="source.name" label="Name" />
         </v-col>
       </v-row>
       <v-row align="center">
         <v-col>
-          <v-text-field
-            v-model="source.topic"
-            label="Topic"/>
+          <v-text-field v-model="source.topic" label="Topic" />
         </v-col>
       </v-row>
       <v-row align="center">
         <v-col>
-          <v-text-field
-            v-model="source.json_key"
-            label="JSON key"/>
+          <v-text-field v-model="source.json_key" label="JSON key" />
         </v-col>
       </v-row>
     </v-card-text>
