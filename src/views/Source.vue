@@ -1,10 +1,10 @@
 <template>
-  <v-card :loading="loading">
+  <v-card :loading="loading" max-width="40rem" class="mx-auto">
     <v-toolbar flat>
       <v-row align="center">
         <v-col cols="auto">
           <v-btn :to="{name: 'sources'}" icon exact>
-          <v-icon>mdi-arrow-left</v-icon>
+            <v-icon>mdi-arrow-left</v-icon>
           </v-btn>
         </v-col>
         <v-col>
@@ -25,17 +25,22 @@
     </v-toolbar>
     <v-divider />
     <v-card-text v-if="source">
-      <v-row align="center">
+      <v-row>
+        <v-col>
+          <v-text-field :value="source._id" label="ID" filled />
+        </v-col>
+      </v-row>
+      <v-row>
         <v-col>
           <v-text-field v-model="source.name" label="Name" />
         </v-col>
       </v-row>
-      <v-row align="center">
+      <v-row>
         <v-col>
           <v-text-field v-model="source.topic" label="Topic" />
         </v-col>
       </v-row>
-      <v-row align="center">
+      <v-row>
         <v-col>
           <v-text-field v-model="source.json_key" label="JSON key" />
         </v-col>

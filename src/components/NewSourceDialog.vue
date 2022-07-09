@@ -37,31 +37,6 @@
         </v-card-text>
       </v-form>
 
-
-
-
-      <!-- <v-card-actions>
-        <v-row align="center">
-          <v-spacer/>
-          <v-col cols="auto">
-            <v-btn
-              color="primary"
-              text
-              @click="dialog = false">
-              Close
-            </v-btn>
-          </v-col>
-          <v-col cols="auto">
-            <v-btn
-              color="primary"
-              text
-              type="submit">
-              Create
-            </v-btn>
-          </v-col>
-        </v-row>
-
-      </v-card-actions> -->
     </v-card>
 
   </v-dialog>
