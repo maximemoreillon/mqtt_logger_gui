@@ -80,7 +80,7 @@
     methods: {
       submit(){
         this.loading = true
-        const url = `${process.env.VUE_APP_API_URL}/sources`
+        const url = `${process.env.VUE_APP_MQTT_LOGGER_API_URL}/sources`
         const body = {name: this.name}
         this.axios.post(url,body)
           .then(({data: {_id}}) => {
