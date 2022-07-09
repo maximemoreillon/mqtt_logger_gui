@@ -1,12 +1,34 @@
 <template>
-  <v-container fluid>
-    <v-row v-for="(serie, index) in series" :key="index">
-      <v-col>
-        <!-- Not very clean -->
-        <apexchart :options="{ ...options, title: { text: serie.name}}" :series="[serie]" />
-      </v-col>
-    </v-row>
-  </v-container>
+  <v-card outlined :loading="loading">
+    <v-toolbar flat>
+      <v-row align="baseline">
+        <v-col>
+          <v-toolbar-title>
+            Data
+          </v-toolbar-title>
+        </v-col>
+        <v-spacer></v-spacer>
+        <v-col cols="auto">
+          <v-switch label="Auto-refresh" v-model="auto_refresh"></v-switch>
+        </v-col>
+        <v-col cols="auto">
+          <v-btn icon @click="get_points()" :loading="loading">
+            <v-icon>mdi-refresh</v-icon>
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-toolbar>
+    <v-divider></v-divider>
+    <v-card-text>
+      <v-row v-for="(serie, index) in series" :key="index">
+        <v-col>
+          <!-- Options Not very clean -->
+          <apexchart :options="{ ...options, title: { text: serie.name } }" :series="[serie]" />
+        </v-col>
+      </v-row>
+    </v-card-text>
+
+  </v-card>
 
 
 </template>
@@ -19,6 +41,10 @@
     },
 
     data: () => ({
+      loading: false,
+      auto_refresh: true,
+      interval: null,
+      series: [],
       options: {
         type:"line",
         chart: {
@@ -27,10 +53,8 @@
         xaxis: {
           type: 'datetime'
         }
-
-
       },
-      series: []
+
     }),
     computed: {
       source_id(){
@@ -39,6 +63,16 @@
     },
     mounted(){
       this.get_points()
+      if (this.auto_refresh) this.interval = setInterval(this.get_points, 10000)
+    },
+    watch:{
+      auto_refresh(enabled){
+        if (enabled) this.interval = setInterval(this.get_points, 10000)
+        else clearInterval(this.interval)
+      }
+    },
+    beforeDestroy(){
+      if (this.interval) clearInterval(this.interval)
     },
     methods: {
       get_points(){
