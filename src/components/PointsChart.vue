@@ -33,7 +33,7 @@
     methods: {
       get_points(){
         this.loading = true
-        const url = `${process.env.VUE_APP_API_URL}/sources/${this.source_id}/points`
+        const url = `${process.env.VUE_APP_MQTT_LOGGER_API_URL}/sources/${this.source_id}/points`
         this.axios.get(url)
           .then(({data}) => {
 

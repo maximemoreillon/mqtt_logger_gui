@@ -49,7 +49,7 @@ export default {
   methods: {
     get_sources(){
       this.loading = true
-      const url = `${process.env.VUE_APP_API_URL}/sources`
+      const url = `${process.env.VUE_APP_MQTT_LOGGER_API_URL}/sources`
       this.axios.get(url)
         .then(({data}) => {
           this.sources=data

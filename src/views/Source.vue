@@ -84,7 +84,7 @@ export default {
 
     get_source(){
       this.loading = true
-      const url = `${process.env.VUE_APP_API_URL}/sources/${this.source_id}`
+      const url = `${process.env.VUE_APP_MQTT_LOGGER_API_URL}/sources/${this.source_id}`
       this.axios.get(url)
         .then(({data}) => {
           this.source = data
@@ -95,7 +95,7 @@ export default {
     delete_source(){
       if(!confirm('Really?')) return
       this.deleting = true
-      const url = `${process.env.VUE_APP_API_URL}/sources/${this.source_id}`
+      const url = `${process.env.VUE_APP_MQTT_LOGGER_API_URL}/sources/${this.source_id}`
       this.axios.delete(url)
         .then(() => {
           this.$router.push({name: 'sources'})
@@ -106,7 +106,7 @@ export default {
     update_source(){
       this.updating = true
 
-      const url = `${process.env.VUE_APP_API_URL}/sources/${this.source_id}`
+      const url = `${process.env.VUE_APP_MQTT_LOGGER_API_URL}/sources/${this.source_id}`
       this.axios.patch(url, this.source)
         .then(() => {
           alert('OK')
