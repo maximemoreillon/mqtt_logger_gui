@@ -1,4 +1,8 @@
-# mqtt_logger_front
+# MQTT Logger GUI
+
+GUI for MQTT logger
+
+[![dockeri.co](https://dockeri.co/image/moreillon/mqtt-logger-front)](https://hub.docker.com/r/moreillon/mqtt-logger-front)
 
 ## Project setup
 ```
