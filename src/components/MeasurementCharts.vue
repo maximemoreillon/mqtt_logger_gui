@@ -19,13 +19,16 @@
       </v-row>
     </v-toolbar>
     <v-divider></v-divider>
-    <v-card-text>
+    <v-card-text v-if="series.length">
       <v-row v-for="(serie, index) in series" :key="index">
         <v-col>
           <!-- Options Not very clean -->
           <apexchart :options="{ ...options, title: { text: serie.name } }" :series="[serie]" />
         </v-col>
       </v-row>
+    </v-card-text>
+    <v-card-text v-else>
+      No data available
     </v-card-text>
 
   </v-card>
