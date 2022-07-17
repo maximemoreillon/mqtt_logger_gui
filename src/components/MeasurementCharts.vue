@@ -23,7 +23,12 @@
       <v-row v-for="(serie, index) in series" :key="index">
         <v-col>
           <!-- Options Not very clean -->
-          <apexchart :options="{ ...options, title: { text: serie.name } }" :series="[serie]" />
+          <apexchart :options="{ ...options, title: { text: serie.name } }" :series="[serie]" v-if="!serieHasNan(serie)"/>
+          <v-data-table
+            v-else
+            :headers="headers"
+            :items="serie.data">
+          </v-data-table>
         </v-col>
       </v-row>
     </v-card-text>
@@ -48,6 +53,10 @@
       auto_refresh: true,
       interval: null,
       series: [],
+      headers: [
+        { text: 'Time', value: 'x'},
+        { text: 'Value', value: 'y' }
+      ],
       options: {
         type:"line",
         chart: {
@@ -88,7 +97,7 @@
             this.series = fields.map(field => {
               return {
                 name: field,
-                data: data.filter(({ _field }) => _field === field).map(p => ([new Date(p._time).getTime(),p._value]))
+                data: data.filter(({ _field }) => _field === field).map(p => ({x: new Date(p._time).getTime(), y: p._value}))
               }
             })
 
@@ -101,6 +110,9 @@
           if (!acc.includes(_field)) acc.push(_field)
           return acc
         }, [])
+      },
+      serieHasNan(serie){
+        return serie.data.some( ({y}) => isNaN(parseFloat(y)) )
       }
     },
   }

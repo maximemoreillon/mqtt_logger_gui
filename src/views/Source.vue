@@ -82,6 +82,17 @@
       </v-card-text>
     </template>
 
+    <v-snackbar :color="snackbar.color" v-model="snackbar.show">
+      {{ snackbar.text }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn text dark v-bind="attrs" @click="snackbar.show = false">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
+
+
   </v-card>
 </template>
 
@@ -98,6 +109,12 @@ export default {
     loading: false,
     updating: false,
     deleting: false,
+    snackbar: {
+      show: false,
+      text: null,
+      color: 'green',
+    },
+
   }),
 
   mounted(){
@@ -147,7 +164,10 @@ export default {
       const url = `${process.env.VUE_APP_MQTT_LOGGER_API_URL}/sources/${this.source_id}`
       this.axios.patch(url, this.source)
         .then(() => {
-          alert('OK')
+          this.snackbar.text = 'Source updated'
+          this.snackbar.show = true
+          this.snackbar.color = 'green'
+
         })
         .catch( error => {console.error(error)})
         .finally( () => {this.updating = false})
