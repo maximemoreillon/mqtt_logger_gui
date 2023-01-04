@@ -5,61 +5,66 @@
         <v-col>
           <v-toolbar-title>Sources</v-toolbar-title>
         </v-col>
-        <v-spacer/>
+        <v-spacer />
         <v-col cols="auto">
           <NewSourceDialog />
         </v-col>
       </v-row>
     </v-toolbar>
-    <v-divider/>
+    <v-divider />
     <v-card-text>
       <v-data-table
         :loading="loading"
         :items="sources"
         :headers="headers"
-        @click:row="row_clicked($event)">
+        @click:row="row_clicked($event)"
+      >
       </v-data-table>
     </v-card-text>
   </v-card>
 </template>
 
-
 <script>
-import NewSourceDialog from '@/components/NewSourceDialog.vue'
+import NewSourceDialog from "@/components/NewSourceDialog.vue"
 export default {
-  name: 'Sources',
+  name: "Sources",
 
   components: {
-    NewSourceDialog
+    NewSourceDialog,
   },
 
   data: () => ({
     sources: [],
     loading: false,
     headers: [
-      { text: 'Name', value: 'name' },
-      { text: 'Topic', value: 'topic' }
-    ]
+      { text: "Name", value: "name" },
+      { text: "Topic", value: "topic" },
+    ],
   }),
 
-  mounted(){
+  mounted() {
     this.get_sources()
   },
 
   methods: {
-    get_sources(){
+    get_sources() {
       this.loading = true
-      const url = `${process.env.VUE_APP_MQTT_LOGGER_API_URL}/sources`
-      this.axios.get(url)
-        .then(({data}) => {
-          this.sources=data
+      const url = `/sources`
+      this.axios
+        .get(url)
+        .then(({ data }) => {
+          this.sources = data
         })
-        .catch( error => {console.error(error)})
-        .finally( () => {this.loading = false})
+        .catch((error) => {
+          console.error(error)
+        })
+        .finally(() => {
+          this.loading = false
+        })
     },
-    row_clicked({_id}){
-      this.$router.push({name: 'source', params: {_id}})
-    }
-  }
-};
+    row_clicked({ _id }) {
+      this.$router.push({ name: "source", params: { _id } })
+    },
+  },
+}
 </script>

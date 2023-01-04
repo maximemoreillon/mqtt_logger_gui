@@ -3,9 +3,7 @@
     <v-toolbar flat>
       <v-row align="baseline">
         <v-col>
-          <v-toolbar-title>
-            Data
-          </v-toolbar-title>
+          <v-toolbar-title> Data </v-toolbar-title>
         </v-col>
         <v-spacer></v-spacer>
         <v-col cols="auto">
@@ -23,97 +21,110 @@
       <v-row v-for="(serie, index) in series" :key="index">
         <v-col>
           <!-- Options Not very clean -->
-          <apexchart :options="{ ...options, title: { text: serie.name } }" :series="[serie]" v-if="!serieHasNan(serie)"/>
-          <v-data-table
-            v-else
-            :headers="headers"
-            :items="serie.data">
+          <apexchart
+            :options="{ ...options, title: { text: serie.name } }"
+            :series="[serie]"
+            v-if="!serieHasNan(serie)"
+          />
+          <v-data-table v-else :headers="headers" :items="serie.data">
           </v-data-table>
         </v-col>
       </v-row>
     </v-card-text>
-    <v-card-text v-else>
-      No data available
-    </v-card-text>
-
+    <v-card-text v-else> No data available </v-card-text>
   </v-card>
-
-
 </template>
 
 <script>
-  export default {
-  name: 'MeasurementCharts',
-    props: {
-      keys: Array
-    },
+export default {
+  name: "MeasurementCharts",
+  props: {
+    keys: Array,
+  },
 
-    data: () => ({
-      loading: false,
-      auto_refresh: true,
-      interval: null,
-      series: [],
-      headers: [
-        { text: 'Time', value: 'x'},
-        { text: 'Value', value: 'y' }
-      ],
-      options: {
-        type:"line",
-        chart: {
-          id: 'vuechart-example',
-        },
-        xaxis: {
-          type: 'datetime'
-        }
+  data: () => ({
+    loading: false,
+    auto_refresh: true,
+    interval: null,
+    series: [],
+    headers: [
+      { text: "Time", value: "x" },
+      { text: "Value", value: "y" },
+    ],
+    options: {
+      type: "line",
+      colors: ["#c00000"],
+      chart: {
+        id: "vuechart-example",
       },
-
-    }),
-    computed: {
-      source_id(){
-        return this.$route.params._id
-      }
+      xaxis: {
+        type: "datetime",
+      },
     },
-    mounted(){
-      this.get_points()
-      if (this.auto_refresh) this.interval = setInterval(this.get_points, 10000)
+  }),
+  computed: {
+    source_id() {
+      return this.$route.params._id
     },
-    watch:{
-      auto_refresh(enabled){
-        if (enabled) this.interval = setInterval(this.get_points, 10000)
-        else clearInterval(this.interval)
-      }
+  },
+  mounted() {
+    this.get_points()
+    if (this.auto_refresh) this.interval = setInterval(this.get_points, 10000)
+  },
+  watch: {
+    auto_refresh(enabled) {
+      if (enabled) this.interval = setInterval(this.get_points, 10000)
+      else clearInterval(this.interval)
     },
-    beforeDestroy(){
-      if (this.interval) clearInterval(this.interval)
-    },
-    methods: {
-      get_points(){
-        this.loading = true
-        const url = `${process.env.VUE_APP_MQTT_LOGGER_API_URL}/sources/${this.source_id}/points`
-        this.axios.get(url)
-          .then(({data}) => {
-
-            const fields = this.keys.length ? this.keys : this.get_unique_fields(data)
-            this.series = fields.map(field => {
-              return {
-                name: field,
-                data: data.filter(({ _field }) => _field === field).map(p => ({x: new Date(p._time).getTime(), y: p._value}))
-              }
-            })
-
+  },
+  beforeDestroy() {
+    if (this.interval) clearInterval(this.interval)
+  },
+  methods: {
+    get_points() {
+      this.loading = true
+      const url = `${process.env.VUE_APP_MQTT_LOGGER_API_URL}/sources/${this.source_id}/points`
+      this.axios
+        .get(url)
+        .then(({ data }) => {
+          const fields = this.keys.length
+            ? this.keys
+            : this.get_unique_fields(data)
+          this.series = fields.map((field) => {
+            return {
+              name: field,
+              data: data
+                .filter(({ _field }) => _field === field)
+                .map((p) => ({ x: new Date(p._time).getTime(), y: p._value })),
+            }
           })
-          .catch( error => {console.error(error)})
-          .finally( () => {this.loading = false})
-      },
-      get_unique_fields(data){
-        return data.reduce((acc, { _field }) => {
-          if (!acc.includes(_field)) acc.push(_field)
-          return acc
-        }, [])
-      },
-      serieHasNan(serie){
-        return serie.data.some( ({y}) => isNaN(parseFloat(y)) )
-      }
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+        .finally(() => {
+          this.loading = false
+        })
     },
-  }
+    get_unique_fields(data) {
+      return data.reduce((acc, { _field }) => {
+        if (!acc.includes(_field)) acc.push(_field)
+        return acc
+      }, [])
+    },
+    serieHasNan(serie) {
+      return serie.data.some(({ y }) => isNaN(parseFloat(y)))
+    },
+  },
+}
 </script>
+
+<style>
+.apexcharts-zoom-icon.apexcharts-selected svg {
+  fill: #c00000 !important;
+}
+
+.apexcharts-pan-icon.apexcharts-selected svg {
+  stroke: #c00000 !important;
+}
+</style>
