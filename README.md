@@ -1,6 +1,6 @@
 # MQTT Logger GUI
 
-GUI for MQTT logger
+GUI for [MQTT logger](https://github.com/maximemoreillon/mqtt_logger), a microservice to publish to MQTT topics and store their data in InfluxDB.
 
 More information on the project page [here](https://articles.maximemoreillon.com/articles/5aa92bbf-956c-43a9-8f3c-e0bdacd6412d)
 
