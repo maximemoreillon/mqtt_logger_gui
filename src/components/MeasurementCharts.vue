@@ -26,11 +26,16 @@
             :series="[serie]"
             v-if="!serieHasNan(serie)"
           />
+          <!-- Table in case data is not graphable -->
           <v-data-table v-else :headers="headers" :items="serie.data">
             <template v-slot:top>
               <v-card-subtitle>
                 {{ serie.name }}
               </v-card-subtitle>
+            </template>
+
+            <template v-slot:item.x="{ item }">
+              {{ new Date(item.x) }}
             </template>
           </v-data-table>
         </v-col>
