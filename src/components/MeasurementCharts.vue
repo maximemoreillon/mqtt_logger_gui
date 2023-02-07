@@ -27,6 +27,11 @@
             v-if="!serieHasNan(serie)"
           />
           <v-data-table v-else :headers="headers" :items="serie.data">
+            <template v-slot:top>
+              <v-card-subtitle>
+                {{ serie.name }}
+              </v-card-subtitle>
+            </template>
           </v-data-table>
         </v-col>
       </v-row>

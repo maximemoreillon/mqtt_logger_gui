@@ -26,9 +26,11 @@
         </template>
 
         <template v-slot:item.tags="{ item }">
-          <v-chip v-for="tag in item.tags" :key="tag._id">
-            {{ tag.key }}: {{ tag.value }}
-          </v-chip>
+          <v-row>
+            <v-col cols="auto" v-for="tag in item.tags" :key="tag._id">
+              <v-chip> {{ tag.key }}: {{ tag.value }} </v-chip>
+            </v-col>
+          </v-row>
         </template>
       </v-data-table>
     </v-card-text>
