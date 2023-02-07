@@ -13,12 +13,7 @@
     </v-toolbar>
     <v-divider />
     <v-card-text>
-      <v-data-table
-        :loading="loading"
-        :items="sources"
-        :headers="headers"
-        @click:row="row_clicked($event)"
-      >
+      <v-data-table :loading="loading" :items="sources" :headers="headers">
         <template v-slot:item.name="{ item }">
           <router-link :to="{ name: 'source', params: { _id: item._id } }">
             {{ item.name }}
@@ -75,9 +70,6 @@ export default {
         .finally(() => {
           this.loading = false
         })
-    },
-    row_clicked({ _id }) {
-      this.$router.push({ name: "source", params: { _id } })
     },
   },
 }
