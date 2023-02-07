@@ -19,6 +19,17 @@
         :headers="headers"
         @click:row="row_clicked($event)"
       >
+        <template v-slot:item.name="{ item }">
+          <router-link :to="{ name: 'source', params: { _id: item._id } }">
+            {{ item.name }}
+          </router-link>
+        </template>
+
+        <template v-slot:item.tags="{ item }">
+          <v-chip v-for="tag in item.tags" :key="tag._id">
+            {{ tag.key }}: {{ tag.value }}
+          </v-chip>
+        </template>
       </v-data-table>
     </v-card-text>
   </v-card>
@@ -39,6 +50,7 @@ export default {
     headers: [
       { text: "Name", value: "name" },
       { text: "Topic", value: "topic" },
+      { text: "Tags", value: "tags" },
     ],
   }),
 
