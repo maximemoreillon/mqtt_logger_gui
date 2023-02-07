@@ -48,6 +48,39 @@
         </v-row>
         <v-row>
           <v-col>
+            <!-- TODO: make a component -->
+            <v-card outlined>
+              <v-toolbar flat>
+                <v-row align="center">
+                  <v-col> Tags </v-col>
+                  <v-spacer></v-spacer>
+                  <v-col cols="auto">
+                    <v-btn @click="add_tag()">Add tag</v-btn>
+                  </v-col>
+                </v-row>
+              </v-toolbar>
+              <v-card-text v-if="source.tags.length">
+                <v-row dense v-for="(tag, index) in source.tags" :key="index">
+                  <v-col>
+                    <v-text-field dense v-model="tag.key" label="Key" />
+                  </v-col>
+                  <v-col>
+                    <v-text-field dense v-model="tag.value" label="Value" />
+                  </v-col>
+                  <v-col cols="auto">
+                    <v-btn icon @click="delete_tag(index)">
+                      <v-icon>mdi-delete</v-icon>
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </v-card-text>
+              <v-card-text v-else> No Tag </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <!-- TODO: make a component -->
             <v-card outlined>
               <v-toolbar flat>
                 <v-row align="center">
@@ -190,11 +223,19 @@ export default {
     add_key() {
       this.source.keys.push("")
     },
+
     update_key(index, val) {
       this.$set(this.source.keys, index, val)
     },
     delete_key(index) {
       this.source.keys.splice(index, 1)
+    },
+    add_tag() {
+      if (!this.source.tags) this.$set(this.source, "tags", [])
+      this.source.tags.push({ key: "", value: "" })
+    },
+    delete_tag(index) {
+      this.source.tags.splice(index, 1)
     },
   },
   computed: {
