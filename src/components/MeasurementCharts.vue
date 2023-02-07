@@ -83,17 +83,21 @@ export default {
   methods: {
     get_points() {
       this.loading = true
-      const url = `${process.env.VUE_APP_MQTT_LOGGER_API_URL}/sources/${this.source_id}/points`
+      const url = `/sources/${this.source_id}/points`
+      const params = { limit: 300 }
       this.axios
-        .get(url)
+        .get(url, { params })
         .then(({ data }) => {
+          const { points } = data
+
           const fields = this.keys.length
             ? this.keys
-            : this.get_unique_fields(data)
+            : this.get_unique_fields(points)
+
           this.series = fields.map((field) => {
             return {
               name: field,
-              data: data
+              data: points
                 .filter(({ _field }) => _field === field)
                 .map((p) => ({ x: new Date(p._time).getTime(), y: p._value })),
             }
