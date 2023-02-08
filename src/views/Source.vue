@@ -3,7 +3,7 @@
     <v-toolbar flat>
       <v-row align="center">
         <v-col cols="auto">
-          <v-btn :to="{ name: 'sources' }" icon exact>
+          <v-btn @click="$router.back()" icon exact>
             <v-icon>mdi-arrow-left</v-icon>
           </v-btn>
         </v-col>
