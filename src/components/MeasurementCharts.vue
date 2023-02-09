@@ -94,7 +94,7 @@ export default {
     get_points() {
       this.loading = true
       const url = `/sources/${this.source_id}/points`
-      const params = { limit: 300 }
+      const params = { limit: 100 }
       this.axios
         .get(url, { params })
         .then(({ data }) => {
