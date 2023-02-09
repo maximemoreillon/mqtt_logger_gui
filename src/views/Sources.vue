@@ -11,7 +11,6 @@
         </v-col>
       </v-row>
     </v-toolbar>
-    <v-divider />
     <v-card-text>
       <v-data-table
         :loading="loading"
@@ -20,6 +19,23 @@
         :options.sync="tableOptions"
         :server-items-length="total"
       >
+        <template v-slot:top>
+          <!-- TODO: make its own component -->
+          <v-form @submit.prevent="applySearch()">
+            <v-row align="center">
+              <v-col>
+                <v-text-field v-model="searchString" label="Search" />
+              </v-col>
+              <v-col cols="auto">
+                <v-btn type="submit" icon>
+                  <v-icon>mdi-magnify</v-icon>
+                </v-btn>
+              </v-col>
+              <v-spacer></v-spacer>
+            </v-row>
+          </v-form>
+        </template>
+
         <template v-slot:item.name="{ item }">
           <router-link :to="{ name: 'source', params: { _id: item._id } }">
             {{ item.name }}
@@ -51,6 +67,7 @@ export default {
     sources: [],
     total: 0,
     loading: false,
+    searchString: "",
     headers: [
       { text: "Name", value: "name" },
       { text: "Topic", value: "topic" },
@@ -88,6 +105,9 @@ export default {
         .finally(() => {
           this.loading = false
         })
+    },
+    applySearch() {
+      this.updateUrlQuery({ search: this.searchString })
     },
     // TODO: have those in a mixin
     shallowEqual(object1, object2) {
