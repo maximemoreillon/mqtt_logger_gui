@@ -39,7 +39,7 @@ export default {
   methods: {
     submit() {
       this.loading = true
-      const url = `${process.env.VUE_APP_MQTT_LOGGER_API_URL}/sources`
+      const url = `/sources`
       const body = { name: this.name }
       this.axios
         .post(url, body)
