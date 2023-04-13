@@ -43,9 +43,16 @@
         </template>
 
         <template v-slot:item.tags="{ item }">
-          <v-row>
-            <v-col cols="auto" v-for="tag in item.tags" :key="tag._id">
+          <v-row align="center">
+            <v-col
+              cols="auto"
+              v-for="tag in item.tags.slice(0, shownTagsCount)"
+              :key="tag._id"
+            >
               <v-chip> {{ tag.key }}: {{ tag.value }} </v-chip>
+            </v-col>
+            <v-col v-if="item.tags.length > shownTagsCount">
+              +{{ item.tags.length - shownTagsCount }}
             </v-col>
           </v-row>
         </template>
@@ -66,6 +73,7 @@ export default {
   data: () => ({
     sources: [],
     total: 0,
+    shownTagsCount: 3,
     loading: false,
     searchString: "",
     headers: [
@@ -100,6 +108,7 @@ export default {
           this.total = data.total
         })
         .catch((error) => {
+          alert("Failed to query sources")
           console.error(error)
         })
         .finally(() => {
