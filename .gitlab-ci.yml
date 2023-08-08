@@ -5,17 +5,16 @@ stages:
 variables:
   APPLICATION_NAME: mqtt-logger-front
   CONTAINER_IMAGE: ${DOCKER_HUB_USERNAME}/${APPLICATION_NAME}
-  CONTAINER_IMAGE_TAGGED: ${DOCKER_HUB_USERNAME}/${APPLICATION_NAME}:${CI_COMMIT_SHORT_SHA}
+  CONTAINER_IMAGE_TAGGED: ${DOCKER_HUB_USERNAME}/${APPLICATION_NAME}:${CI_COMMIT_TAG}
   K8S_INGRESS_HOST: mqttlogger.home.maximemoreillon.com
 
 image: moreillon/ci-dind
 services:
   - name: docker:19.03.12-dind
 
-
 build:
   only:
-    - master
+    - tags
   stage: build
   tags:
     - dind
@@ -30,10 +29,9 @@ build:
     - docker push ${CONTAINER_IMAGE}
     - docker push ${CONTAINER_IMAGE_TAGGED}
 
-
 deploy:
   only:
-    - master
+    - tags
   stage: deploy
   tags:
     - dind
