@@ -104,14 +104,12 @@ export default {
             ? this.keys
             : this.get_unique_fields(points)
 
-          this.series = fields.map((field) => {
-            return {
-              name: field,
-              data: points
-                .filter(({ _field }) => _field === field)
-                .map((p) => ({ x: new Date(p._time).getTime(), y: p._value })),
-            }
-          })
+          this.series = fields.map((field) => ({
+            name: field,
+            data: points
+              .filter(({ _field }) => _field === field)
+              .map((p) => ({ x: new Date(p._time).getTime(), y: p._value })),
+          }))
         })
         .catch((error) => {
           console.error(error)
