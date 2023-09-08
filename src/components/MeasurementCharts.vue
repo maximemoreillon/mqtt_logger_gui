@@ -21,11 +21,12 @@
       <v-row v-for="(serie, index) in series" :key="index">
         <v-col>
           <!-- Options Not very clean -->
-          <apexchart
-            :options="{ ...options, title: { text: serie.name } }"
+          <MeasurementChart
             :series="[serie]"
+            :title="serie.name"
             v-if="!serieHasNan(serie)"
           />
+
           <!-- Table in case data is not graphable -->
           <v-data-table v-else :headers="headers" :items="serie.data">
             <template v-slot:top>
@@ -46,8 +47,12 @@
 </template>
 
 <script>
+import MeasurementChart from "./MeasurementChart.vue"
 export default {
   name: "MeasurementCharts",
+  components: {
+    MeasurementChart,
+  },
   props: {
     keys: Array,
   },
@@ -61,20 +66,13 @@ export default {
       { text: "Time", value: "x" },
       { text: "Value", value: "y" },
     ],
-    options: {
-      type: "line",
-      colors: ["#c00000"],
-      chart: {
-        id: "vuechart-example",
-      },
-      xaxis: {
-        type: "datetime",
-      },
-    },
   }),
   computed: {
     source_id() {
       return this.$route.params._id
+    },
+    dark() {
+      return this.$vuetify.theme.dark
     },
   },
   mounted() {
@@ -130,13 +128,3 @@ export default {
   },
 }
 </script>
-
-<style>
-.apexcharts-zoom-icon.apexcharts-selected svg {
-  fill: #c00000 !important;
-}
-
-.apexcharts-pan-icon.apexcharts-selected svg {
-  stroke: #c00000 !important;
-}
-</style>
