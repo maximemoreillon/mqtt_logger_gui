@@ -127,6 +127,9 @@ export default {
         })
         .catch((error) => {
           console.error(error)
+          this.snackbar.text = "Source query failed"
+          this.snackbar.show = true
+          this.snackbar.color = "error"
         })
         .finally(() => {
           this.loading = false
@@ -143,6 +146,9 @@ export default {
         })
         .catch((error) => {
           console.error(error)
+          this.snackbar.text = "Source deletion failed"
+          this.snackbar.show = true
+          this.snackbar.color = "error"
         })
         .finally(() => {
           this.deleting = false
@@ -157,10 +163,13 @@ export default {
         .then(() => {
           this.snackbar.text = "Source updated"
           this.snackbar.show = true
-          this.snackbar.color = "green"
+          this.snackbar.color = "success"
         })
         .catch((error) => {
           console.error(error)
+          this.snackbar.text = "Source update failed"
+          this.snackbar.show = true
+          this.snackbar.color = "error"
         })
         .finally(() => {
           this.updating = false
