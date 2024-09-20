@@ -15,12 +15,11 @@ spec:
       containers:
         - name: ${APPLICATION_NAME}
           image: ${CONTAINER_IMAGE_TAGGED}
-          ports:
-            - containerPort: 80
-          # Get environment variables from secret
           envFrom:
+            # - secretRef:
+            #     name: environment-variables
             - secretRef:
-                name: environment-variables
+                name: auth0-env
           env:
             - name: VUE_APP_MQTT_LOGGER_API_URL
               value: https://api.mqttlogger.home.maximemoreillon.com
